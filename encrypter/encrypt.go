@@ -14,11 +14,7 @@ import (
 )
 
 var wg sync.WaitGroup
-
-
-const(
-	key = "testtesttesttest"
-)
+var key string
 
 func encrypt(plaintext []byte) string {
 
@@ -75,7 +71,14 @@ func getPaths(allfiles *[]string, path string){
 }
 
 func main() {
-	dir := "../examples/"
+	if len(os.Args) != 3{
+		log.Fatal("Invalid number of args: ./encrypt password /root/Desktop/")
+	}
+	key = os.Args[1]
+	dir := os.Args[2]
+	if len(key) != 16{
+		log.Fatal("Key must be 16 characters(bytes) long, to prevent future decryption problems")
+	}
 	allfiles := make([]string,0,200)
 	getPaths(&allfiles,dir)
 	start := time.Now()	
