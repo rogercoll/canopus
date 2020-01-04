@@ -3,6 +3,7 @@ package decrypter
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
 	"log"
@@ -13,6 +14,17 @@ import (
 
 var wg sync.WaitGroup
 var key string
+
+var DecryptCmd = &cobra.Command {
+	Use:	"decrypt",
+	Run:	func(cmd *cobra.Command, args []string) {
+		fmt.Println("Hey decrypting from command")
+		err := Decrypt("/home/neck/Documents/PersonalProjects/dirEncryptor/examples/", "holaholaholahola")
+		if err != nil {
+			log.Fatal(err)
+		}
+	},
+}
 
 func Decrypt(dir, password string) error {
 	key = password

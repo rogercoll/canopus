@@ -15,8 +15,13 @@ import (
 	"github.com/rogercoll/dirEncryptor/decrypter"
 )
 
-var mainCmd = &cobra.Command {
+var rootCmd = &cobra.Command {
 	Use: "canopus",
+}
+
+func init() {
+	rootCmd.AddCommand(encrypter.EncryptCmd)
+	rootCmd.AddCommand(decrypter.DecryptCmd)
 }
 
 func readDir() string {
@@ -38,6 +43,9 @@ func credentials() (string) {
 }
 
 func main() {
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatal(err)
+	}
 	var err error
 	boolPtr := flag.Bool("d", false, "Decrypt a directory")
 	flag.Parse()
