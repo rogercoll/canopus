@@ -1,4 +1,4 @@
-module github.com/rogercoll/dirEncryptor
+module github.com/rogercoll/canopus
 
 go 1.13
 

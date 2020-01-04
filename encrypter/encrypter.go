@@ -12,6 +12,7 @@ import (
 	"time"
 	"sync"
 	"github.com/spf13/cobra"
+	"github.com/rogercoll/canopus/utils"
 )
 
 var wg sync.WaitGroup
@@ -20,8 +21,9 @@ var key string
 var EncryptCmd = &cobra.Command {
 	Use:	"encrypt",
 	Run:	func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hey from command")
-		err := Encrypt("/home/neck/Documents/PersonalProjects/dirEncryptor/examples/", "holaholaholahola")
+		pass := utils.GetCredentials()
+		dir := utils.GetDir()
+		err := Encrypt(dir, pass)
 		if err != nil {
 			log.Fatal(err)
 		}

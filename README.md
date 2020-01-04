@@ -5,19 +5,16 @@ PASSWORD MUST BE 16 CHARACTERS LONG
 ## Usage
 ### 1. Clone this module:
 ```sh
-$ git clone https://github.com/rogercoll/dirEncryptor.git
+$ git clone https://github.com/rogercoll/canopus.git
 ```
 ### 2. Building it:
 ```sh
-$ cd dirEncryptor/encrypter
-$ go build encrypter.go
-$ cd dirEncryptor/decrypter
-$ go build decrypter.go
+$ cd canopus/
+$ go build -o canopus
 ```
 ### 3. Run it:
 ```golang
-./encrypter halohalohalohalo /root/Desktop/
-./decrypter halohalohalohalo /root/Desktop/
+./canopus help
 ```
 
 

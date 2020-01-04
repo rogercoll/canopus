@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"time"
 	"sync"
+	"github.com/rogercoll/canopus/utils"
 )
 
 var wg sync.WaitGroup
@@ -18,8 +19,9 @@ var key string
 var DecryptCmd = &cobra.Command {
 	Use:	"decrypt",
 	Run:	func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hey decrypting from command")
-		err := Decrypt("/home/neck/Documents/PersonalProjects/dirEncryptor/examples/", "holaholaholahola")
+		pass := utils.GetCredentials()
+		dir := utils.GetDir()
+		err := Decrypt(dir, pass)
 		if err != nil {
 			log.Fatal(err)
 		}

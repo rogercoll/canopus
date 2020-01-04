@@ -1,11 +1,20 @@
 package utils
 
 import (
+	"os"
+	"fmt"
+	"bufio"
 	"syscall"
 	"strings"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+func GetDir() string {
+	reader := bufio.NewReader(os.Stdin)
+    fmt.Print("Enter directory: ")
+	dir, _ := reader.ReadString('\n')
+	return strings.TrimSpace(dir)
+}
 
 func GetCredentials() (string) {
     fmt.Print("Enter Password: ")
