@@ -1,4 +1,4 @@
-package main
+package decrypter
 
 import (
 	"crypto/aes"
@@ -14,8 +14,28 @@ import (
 var wg sync.WaitGroup
 var key string
 
+func Decrypt(dir, password string) error {
+	key = password
+	allfiles := make([]string,0,200)
+	getPaths(&allfiles,dir)
+	start := time.Now()	
+	
+	for _,file := range allfiles{
+		wg.Add(1)
+		estat,err := os.Stat(file)
+		if err != nil{
+			panic(err)
+		}
+		go all_process(file,estat)
+	}
+	wg.Wait()
+	finish := time.Since(start).Seconds()
+	fmt.Printf("Total dectypton time %.2fs\n", finish)
+	return nil
+}
 
-func decrypt(ciphertext []byte) string {
+
+func makeDecryption(ciphertext []byte) string {
 	// Key
 	keyb := []byte(key)
 
@@ -54,7 +74,7 @@ func all_process(path string,file os.FileInfo){
 	if err != nil {
 		panic(err.Error())
 	}
-	ciphertext := decrypt(plaintext)
+	ciphertext := makeDecryption(plaintext)
 	writeToFile(ciphertext, path,perms)
 	wg.Done()
 }
@@ -73,30 +93,4 @@ func getPaths(allfiles *[]string, path string){
 			}
 		}
 	}
-}
-
-func main() {
-	if len(os.Args) != 3{
-		log.Fatal("Invalid number of args: ./encrypt password /root/Desktop/")
-	}
-	key = os.Args[1]
-	dir := os.Args[2]
-	if len(key) != 16{
-		log.Fatal("Key must be 16 characters(bytes) long, to prevent future decryption problems")
-	}
-	allfiles := make([]string,0,200)
-	getPaths(&allfiles,dir)
-	start := time.Now()	
-	
-	for _,file := range allfiles{
-		wg.Add(1)
-		estat,err := os.Stat(file)
-		if err != nil{
-			panic(err)
-		}
-		go all_process(file,estat)
-	}
-	wg.Wait()
-	finish := time.Since(start).Seconds()
-	fmt.Printf("Total time %.2fs\n", finish)
 }

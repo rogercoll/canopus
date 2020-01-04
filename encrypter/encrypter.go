@@ -17,6 +17,7 @@ var wg sync.WaitGroup
 var key string
 
 func Encrypt(dir, password string) error {
+	key = password
 	allfiles := make([]string,0,200)
 	getPaths(&allfiles,dir)
 	start := time.Now()	

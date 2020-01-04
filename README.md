@@ -19,3 +19,6 @@ $ go build decrypter.go
 ./encrypter halohalohalohalo /root/Desktop/
 ./decrypter halohalohalohalo /root/Desktop/
 ```
+
+
+fer un tracking de els fitxers, bbdd, ultims canvis(timestamp), canvis de password, etc..

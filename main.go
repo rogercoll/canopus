@@ -3,13 +3,21 @@ package main
 
 import (
 	"os"
+	"log"
 	"fmt"
+	"flag"
 	"bufio"
     "strings"
-    "syscall"
+	"syscall"
+	"github.com/spf13/cobra"
 	"golang.org/x/crypto/ssh/terminal"
 	"github.com/rogercoll/dirEncryptor/encrypter"
+	"github.com/rogercoll/dirEncryptor/decrypter"
 )
+
+var mainCmd = &cobra.Command {
+	Use: "canopus",
+}
 
 func readDir() string {
 	reader := bufio.NewReader(os.Stdin)
@@ -30,12 +38,20 @@ func credentials() (string) {
 }
 
 func main() {
+	var err error
+	boolPtr := flag.Bool("d", false, "Decrypt a directory")
+	flag.Parse()
 	dir := readDir()
 	fmt.Printf("Directory: %s\n", dir)
 	pass := credentials()
 	fmt.Printf("Password: %s\n", pass)
-	err := encrypter.Encrypt(dir, pass)
+	if *boolPtr {
+		err = decrypter.Decrypt(dir, pass)
+		
+	} else {
+		err = encrypter.Encrypt(dir, pass)
+	}
 	if err != nil {
-		fmt.Println("Directory encripted correctly!")
+		log.Fatal(err)
 	}
 }
